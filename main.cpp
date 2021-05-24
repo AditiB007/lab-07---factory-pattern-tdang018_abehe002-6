@@ -1,25 +1,19 @@
 #include <iostream>
+#include "factory.h"
 
-#include "op.hpp"
-#include "add.h"
-#include "mult.h"
-#include "pow.h"
-#include "sub.h"
-#include "div.h"
-#include "rand.h"
+using namespace std;
 
-int main() {
-    // This is a very basic main, and being able to correctly execute this main
-    // does not constitute a completed lab. Make sure you write unit tests for
-    // all the classes that you create (and can be instantiated) in this lab
-    Base* three = new Op(3);
-    Base* seven = new Op(7);
-    Base* four = new Op(4);
-    Base* two = new Op(2);
-    Base* mult = new Mult(seven, four);
-    Base* add = new Add(three, mult);
-    Base* minus = new Sub(add, two);
+int main(int argc, char** argv) {
+    Factory* tree = new Factory();
 
-    std::cout << minus->stringify() << " = " << minus->evaluate() << std::endl;
+    for(int i = 0; i < argc; i++) {
+      cout << argv[i] << " ";
+    }
+    cout << endl;
+
+    Base* output = tree->parse(argc, argv);
+
+    cout << output->stringify() << " = " << output->evaluate() << endl;
+    
     return 0;
 }
