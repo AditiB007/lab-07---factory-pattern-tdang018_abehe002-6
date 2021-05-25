@@ -15,9 +15,9 @@ private:
 
 vector<string> parsing;
 
-bool validate(char** input, int length) {
+bool validate(int length, char** input) {
   // "You ... can assume there are no parenthesis and spaces ..."
-  if(length != 1 || !input) {return false;}
+  if(length != 2 || !input) {return false;}
   return true;
 }
 
@@ -73,9 +73,9 @@ vector<string> split(char* str) {
 public:
 
 Factory() {
-  char input[] = "2+3";
-  vector<string> test = split(input);
-  print();
+//  char input[] = "2+3**4-7";
+//  vector<string> test = split(input);
+//  print();
 }
     
 ~Factory() {
@@ -92,29 +92,28 @@ void print() {
 //  cout << "end print()" << endl;
 }
     
-/*
-    Base* parse(char** input, int length) {
-      bool valid = false;
-      if(validate(input, length)) {
-        cout<<"asdf"<<endl;
-        return nullptr;
-  //      
-        for(int i=0; i<length; ++i) {
-          std::string str(input[i]); // string of numbers and operators, no spaces
-          std::string tokens* = split(str);
+///*
+Base* parse(int length, char** input) {
+  //cout << "length: " << length << endl;
+  bool valid = false;
+  if(validate(length, input)) {
+    parsing = split(input[1]);
+    print();
+/*    char* expression = "";
+    for(int i=0; i<length; ++i) { // loop through all arguments
+      for(int j=0; input[i][j] != '\0'; ++j) {
+        if(input[i][j] != " ") { expression += input[i][j]; }
+      }    
 
-          for(int j=0; j<tokens->size(); ++j) { std::cout << tokens[j]; std::cout << std::endl; }
-
-          return nullptr;
-        }
-      }
-      else{
-        std::cout << "Error: Invalid input!" << std::endl;
-        return nullptr;
-//
-      }
     }
 */
+  }
+  else{
+    std::cout << "Error: Invalid input!" << std::endl;
+    return nullptr;
+  }
+}
+//*/
 };
 
 #endif // __FACTORY_H__
