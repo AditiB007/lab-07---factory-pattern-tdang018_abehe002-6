@@ -2,7 +2,6 @@
 #define __FACTORY_H__
 
 #include "lab3_includes.h"
-//#include "parse.h"
 
 #include <iostream>
 #include <vector>
@@ -12,6 +11,8 @@ using namespace std;
 
 class Factory {
 private:
+    vector<string> parsing;
+
     bool validate(char** input, int length) {
       // "You ... can assume there are no parenthesis and spaces ..."
       if(length != 1 || !input) {return false;}
@@ -19,7 +20,7 @@ private:
     }
 
     vector<vector<char*>> split(char* str) {
-      vector<string> parsing;
+      //vector<string> parsing;
       string token = "";
       
       for(int i=0; i<strlen(str); ++i) {
@@ -56,8 +57,19 @@ private:
 public:
     Factory() {
       char input[] = "2+3";
-      char* test = split(input);
+      vector<string> test = split(input);
     }
+    
+    ~Factory() {
+      //for(vector<string>::iterator it = test.begin(); it != 
+    }
+
+    void print() {
+      for(vector<string>::iterator it = parsing.begin(); it != parsing.end(); ++it) {
+        cout << *it << " ";
+      }
+    }
+    
 /*
     Base* parse(char** input, int length) {
       bool valid = false;
