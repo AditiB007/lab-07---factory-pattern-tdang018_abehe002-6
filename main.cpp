@@ -1,5 +1,7 @@
 #include <iostream>
 #include "factory.h"
+#include <string.h>
+#include <string>
 
 using namespace std;
 
@@ -11,9 +13,14 @@ int main(int argc, char** argv) {
     }
     cout << endl;
 
-    Base* output = tree->parse(argc, argv);
+    //Base* output = tree->parse(argc, argv);
 
-    cout << output->stringify() << " = " << output->evaluate() << endl;
-    
+    //cout << output->stringify() << " = " << output->evaluate() << endl;
+        
+    //Base* asd = tree->parse(argc, argv);
+    //delete asd;
+
+    //delete tree;
+
     return 0;
 }
