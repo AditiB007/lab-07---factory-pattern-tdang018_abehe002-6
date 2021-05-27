@@ -3,7 +3,13 @@
 
 #include "gtest/gtest.h"
 
-#include "lab3_includes.h"
+#include "mult.h"
+#include "op_mock.h"
+#include "rand_mock.h"
+#include "add_mock.h"
+#include "sub_mock.h"
+#include "div_mock.h"
+#include "pow_mock.h"
 
 TEST(MultTest, ThreeTimesTwo) {
   Base* three = new Op(3);

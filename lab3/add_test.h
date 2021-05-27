@@ -3,7 +3,13 @@
 
 #include "gtest/gtest.h"
 
-#include "lab3_includes.h"
+#include "add.h"
+#include "op_mock.h"
+#include "rand_mock.h"
+#include "sub_mock.h"
+#include "mult_mock.h"
+#include "div_mock.h"
+#include "pow_mock.h"
 
 TEST(AddTest, ThreePlusTwo) {
   Base* three = new Op(3);
