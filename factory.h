@@ -128,6 +128,7 @@ Base* makeOperation(Base* left, Base* right, string op) {
   else if(op == "-") { return new Sub(left, right); }
   else if(op == "*") { return new Mult(left, right); }
   else if(op == "/") { return new Div(left, right); }
+  else if(op == "**") { return new Pow(left, right); }
 
   cout << "Error: unrecognized operator!" << endl;
   left->~Base();
