@@ -84,36 +84,71 @@ Factory() {
       //}
 }
 
-void print() {
+void printParsing() {
 //  cout << "printing" << endl;
   for(vector<string>::iterator it = parsing.begin(); it != parsing.end(); ++it) {
     cout << *it << " ";
   }
 //  cout << "end print()" << endl;
 }
+
+void print(vector<string>::iterator it) {
+  cout << *it << " ";
+}
     
-///*
+bool isNum(vector<string>::iterator it) {
+  //cout << "test";
+  if(it->at(0) >= '0' && it->at(0) <= '9') { return true; }
+  //cout << "asd";
+  return false;
+}
+
 Base* parse(int length, char** input) {
   //cout << "length: " << length << endl;
   bool valid = false;
   if(validate(length, input)) {
     parsing = split(input[1]);
-    print();
-/*    char* expression = "";
-    for(int i=0; i<length; ++i) { // loop through all arguments
-      for(int j=0; input[i][j] != '\0'; ++j) {
-        if(input[i][j] != " ") { expression += input[i][j]; }
-      }    
+    //print();
+    
+    Base* left = nullptr;
+    Base* parent = nullptr;
+    Base* right = nullptr;
+    for(vector<string>::iterator it = parsing.begin(); it != parsing.end(); ++it) {
+      cout << "it: " << *it << endl;
+      if(it == parsing.begin() && !isNum(it)) {
+        cout << "Error: Must begin expression with a number!" << endl;
+        return nullptr;
+      }
+      else if(!left) { 
+        //cout << stoi(*it) << endl;
+        left = new Op(stoi(*it));
+        cout << "left: " << left->stringify() << endl;
+        delete left;
+        //return nullptr;
+      }
+      else if(left && !parent && !right && !isNum(it)) {
+        cout << "parent: " << *it << endl;
 
+        if(isNum(it+1)) { // lookahead to next iteration for right child as number
+          right = new Op(stoi(*(it+1)));
+          cout << "right: " << right->stringify() << endl;
+          delete right;
+          //return nullptr;
+        }
+                
+        //parent = makeOperation(left, right);
+        //cout << "parent: " << endl;
+        //delete parent;
+        //++it;
+      }
     }
-*/
   }
   else{
     std::cout << "Error: Invalid input!" << std::endl;
     return nullptr;
   }
 }
-//*/
+
 };
 
 #endif // __FACTORY_H__
