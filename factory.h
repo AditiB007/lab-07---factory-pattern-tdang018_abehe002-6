@@ -14,6 +14,11 @@ class Factory {
 private:
 
 vector<string> parsing;
+bool invalid;
+
+Base* left;
+Base* right;
+Base* parent;
 
 bool validate(int length, char** input) {
   // "You ... can assume there are no parenthesis and spaces ..."
@@ -54,12 +59,19 @@ vector<string> split(char* str) {
       return parsing;
     }*/
     else {
-      token += check;
+      if(check >= '0' && check <= '9') {
+        token += check;
 //      cout << "token building: " << token << endl;
-
-      if(str[i+1] == '+' || str[i+1] == '-' || str[i+1] == '*' || str[i+1] == '/') {
-        parsing.push_back(token);
-        token = "";
+      
+        if(str[i+1] == '+' || str[i+1] == '-' || str[i+1] == '*' || str[i+1] == '/') {
+          parsing.push_back(token);
+          token = "";
+        }
+      }
+      else {
+        cout << "Error: Unexpected symbol detected in parsing!" << endl;
+        invalid = true;
+        return parsing;
       }
     }
 
@@ -76,6 +88,8 @@ Factory() {
 //  char input[] = "2+3**4-7";
 //  vector<string> test = split(input);
 //  print();
+  invalid = false;
+  left = right = parent = nullptr;
 }
     
 ~Factory() {
@@ -103,6 +117,12 @@ bool isNum(vector<string>::iterator it) {
   return false;
 }
 
+void clear() {
+  delete left;
+  delete right;
+  delete parent;
+}
+
 Base* makeOperation(Base* left, Base* right, string op) {
   if(op == "+") { return new Add(left, right); }
 
@@ -120,11 +140,12 @@ Base* parse(int length, char** input) {
   bool valid = false;
   if(validate(length, input)) {
     parsing = split(input[1]);
+    if(invalid) { return nullptr; }
     //print();
     
-    Base* left = nullptr;
-    Base* parent = nullptr;
-    Base* right = nullptr;
+    //Base* left = nullptr;
+    //Base* parent = nullptr;
+    //Base* right = nullptr;
     for(vector<string>::iterator it = parsing.begin(); it != parsing.end(); ++it) {
       cout << "it: " << *it << endl;
       if(it == parsing.begin() && !isNum(it)) {
@@ -139,8 +160,14 @@ Base* parse(int length, char** input) {
         //return nullptr;
       }
       else if(left && !parent && !right && !isNum(it)) {
-        cout << "parent symbol: " << *it << endl;
+        if((it+1) == parsing.end()) {
+          cout << "Error: Invalid number of inputs in expression! There is one too few or too many." << endl;
+          clear();
+          return nullptr;
+        }
 
+        cout << "parent symbol: " << *it << endl;
+        
         if(isNum(it+1)) { // lookahead to next iteration for right child as number
           right = new Op(stoi(*(it+1)));
           cout << "right: " << right->stringify() << endl;
@@ -152,13 +179,23 @@ Base* parse(int length, char** input) {
         if(!parent) { return nullptr; }
         else {
           cout << "parent: " << parent->stringify() << endl;
-          delete parent;
-          
-          return nullptr;
+          //delete parent;
+          //return nullptr;
+
+          if((it+2) == parsing.end()) {
+            cout << "end reached!" << endl;
+            return parent;
+          }
+          else {
+            left = parent;
+            right = parent = nullptr;
+            ++it;
+          }
         }
-        //++it;
       }
     }
+    cout << "Error: Unexpected end of expression reached!" << endl;
+    return nullptr;
   }
   else{
     std::cout << "Error: Invalid input!" << std::endl;
