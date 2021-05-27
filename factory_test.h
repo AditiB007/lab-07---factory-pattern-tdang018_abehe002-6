@@ -14,13 +14,13 @@ TEST(FactoryTest, Add_2_3) {
 
   //char* test_val[1]; test_val[0] = "./calculator"; test_val[1] = "2+3";
   char* c[] = {"./calculator", "2+3"};
-  Factory* factory = new Factory(2, c);
+  Factory* test = new Factory(2, c);
   //string outputS = factory->getString();
   
-  //string outputS = test->stringify();
-  //double outputD = test->evaluate();
+  string outputS = test->getString();
+  double outputD = test->getDouble();
 
-  //EXPECT_EQ("2.000000 + 3.000000 ", outputS);
+  EXPECT_EQ("(2.000000 + 3.000000)", outputS);
  // EXPECT_EQ(outputD, 3.0000000);
 }
 /*
