@@ -1,19 +1,29 @@
 #ifndef __FACTORY_TEST_H__
 #define __FACTORY_TEST_H__
 
-#include <string>
 #include "gtest/gtest.h"
+
 #include "factory.h"
+//#include "scan.h"
 
-TEST(FactoryTest, Add) {
-  string input = "1+2";
-  Factory* test = new Factory();
-  string outputS = test.stringify();
-  double outputD = test.evaluate();
-  EXPECT_EQ(outputS, "1+2");
-  EXPECT_EQ(outputD, 3.0000000);
+using namespace std;
+
+TEST(FactoryTest, Add_2_3) {
+  //Factory* test = new Factory();
+  //Base* tree;
+
+  //char* test_val[1]; test_val[0] = "./calculator"; test_val[1] = "2+3";
+  char* c[] = {"./calculator", "2+3"};
+  Factory* factory = new Factory(2, c);
+  //string outputS = factory->getString();
+  
+  //string outputS = test->stringify();
+  //double outputD = test->evaluate();
+
+  //EXPECT_EQ("2.000000 + 3.000000 ", outputS);
+ // EXPECT_EQ(outputD, 3.0000000);
 }
-
+/*
 TEST(FactoryTest, Sub) {
   string input = "3-2";
   Factory* test = new Factory();
@@ -49,5 +59,5 @@ TEST(FactoryTest, Pow) {
   EXPECT_EQ(outputS, "7**2");
   EXPECT_EQ(outputD, 49.0000000);
 }
-
+*/
 #endif //__FACTORY_TEST_H__

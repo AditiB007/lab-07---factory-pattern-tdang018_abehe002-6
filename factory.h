@@ -20,6 +20,9 @@ Base* left;
 Base* right;
 Base* parent;
 
+string outputS;
+double outputD;
+
 bool validate(int length, char** input) {
   // "You ... can assume there are no parenthesis and spaces ..."
   if(length != 2 || !input) {return false;}
@@ -90,8 +93,22 @@ Factory() {
 //  print();
   invalid = false;
   left = right = parent = nullptr;
+
+  outputS = "";
+  outputD = 0;
 }
-    
+
+Factory(int argc, char** argv) {
+  Base* output = parse(argc, argv);
+  outputS = output->stringify();
+  //outputD = output->evaluate();
+  delete output;
+}
+
+string getString() { return outputS; }
+
+double getDouble() { return outputD; }
+   
 ~Factory() {
       //for(vector<string>::iterator it = test.begin(); it != test.end()) {
         
@@ -151,7 +168,7 @@ Base* parse(int length, char** input) {
     //Base* parent = nullptr;
     //Base* right = nullptr;
     for(vector<string>::iterator it = parsing.begin(); it != parsing.end(); ++it) {
-      cout << "it: " << *it << endl;
+//      cout << "it: " << *it << endl;
       if(it == parsing.begin() && !isNum(it)) {
         cout << "Error: Must begin expression with a number!" << endl;
         return nullptr;
@@ -159,7 +176,7 @@ Base* parse(int length, char** input) {
       else if(!left) { 
         //cout << stoi(*it) << endl;
         left = new Op(stoi(*it));
-        cout << "left: " << left->stringify() << endl;
+//        cout << "left: " << left->stringify() << endl;
         //delete left;
         //return nullptr;
       }
@@ -170,11 +187,11 @@ Base* parse(int length, char** input) {
           return nullptr;
         }
 
-        cout << "parent symbol: " << *it << endl;
+//        cout << "parent symbol: " << *it << endl;
         
         if(isNum(it+1)) { // lookahead to next iteration for right child as number
           right = new Op(stoi(*(it+1)));
-          cout << "right: " << right->stringify() << endl;
+//          cout << "right: " << right->stringify() << endl;
           //delete right;
           //return nullptr;
         }
@@ -182,12 +199,12 @@ Base* parse(int length, char** input) {
         parent = makeOperation(left, right, *it);
         if(!parent) { return nullptr; }
         else {
-          cout << "parent: " << parent->stringify() << endl;
+//          cout << "parent: " << parent->stringify() << endl;
           //delete parent;
           //return nullptr;
 
           if((it+2) == parsing.end()) {
-            cout << "end reached!" << endl;
+//            cout << "end reached!" << endl;
             return parent;
           }
           else {
