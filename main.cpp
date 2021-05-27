@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
     Base* output = tree->parse(argc, argv);
     if(output) {
       cout << "parsing stringify: " << output->stringify() << endl;
-      //cout << "parsing evaluate: " << output->evaluate() << endl;
+      cout << "parsing evaluate: " << output->evaluate() << endl;
     }
     delete tree;
 
