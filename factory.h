@@ -103,6 +103,18 @@ bool isNum(vector<string>::iterator it) {
   return false;
 }
 
+Base* makeOperation(Base* left, Base* right, string op) {
+  if(op == "+") { return new Add(left, right); }
+
+  cout << "Error: unrecognized operator!" << endl;
+  left->~Base();
+  delete left;
+  right->~Base();
+  delete right;
+
+  return nullptr;
+}
+
 Base* parse(int length, char** input) {
   //cout << "length: " << length << endl;
   bool valid = false;
@@ -123,22 +135,27 @@ Base* parse(int length, char** input) {
         //cout << stoi(*it) << endl;
         left = new Op(stoi(*it));
         cout << "left: " << left->stringify() << endl;
-        delete left;
+        //delete left;
         //return nullptr;
       }
       else if(left && !parent && !right && !isNum(it)) {
-        cout << "parent: " << *it << endl;
+        cout << "parent symbol: " << *it << endl;
 
         if(isNum(it+1)) { // lookahead to next iteration for right child as number
           right = new Op(stoi(*(it+1)));
           cout << "right: " << right->stringify() << endl;
-          delete right;
+          //delete right;
           //return nullptr;
         }
-                
-        //parent = makeOperation(left, right);
-        //cout << "parent: " << endl;
-        //delete parent;
+                       
+        parent = makeOperation(left, right, *it);
+        if(!parent) { return nullptr; }
+        else {
+          cout << "parent: " << parent->stringify() << endl;
+          delete parent;
+          
+          return nullptr;
+        }
         //++it;
       }
     }
